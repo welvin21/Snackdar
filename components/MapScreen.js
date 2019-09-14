@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet,Text } from 'react-native';
+import { Header,Icon } from 'react-native-elements';
 import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
 
 export default class MapScreen extends Component{
@@ -37,9 +38,21 @@ export default class MapScreen extends Component{
         ]
       }
     }
+
+    handleOnBackButtonPress(){
+      this.props.onMapBackButtonPress();
+    }
+
     render(){
         return(
           <View style={styles.container}>
+            <Header style={styles.header}>
+                <Icon 
+                    name='arrow-back'
+                    onPress={()=>{this.handleOnBackButtonPress()}}
+                />
+                <Text style={{color : '#fff'}}>MY VENDING MACHINE</Text>
+            </Header>   
             <MapView
               style={styles.map}
               region={{
@@ -65,13 +78,25 @@ export default class MapScreen extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    position : 'absolute',
+    top : 0,
+    bottom : 0,
+    right : 0,
+    left : 0,
     height: '100%',
     width: 400,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  header: {
+    flex : 1
+  },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    flex : 9,
+    position : 'absolute',
+    bottom : 0,
+    left : 0,
+    right : 0,
+    top : '10%'
   },
  });

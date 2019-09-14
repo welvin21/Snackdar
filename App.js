@@ -12,29 +12,44 @@ export default class App extends Component{
   constructor(props){
     super(props);
     this.state = {
+      page : 0,
       category : null,
       itemCode : null
     }
   }
 
   handleOptionCardOnPress = (category) => {
-    this.setState({category : category.toLowerCase()});
+    this.setState({
+      page : this.state.page + 1,
+      category : category.toLowerCase()
+    });
   }
 
   handleItemOnPress = (itemCode) => {
-    this.setState({itemCode : itemCode.toLowerCase()})
+    this.setState({
+      page : this.state.page + 1,
+      itemCode : itemCode.toLowerCase()
+    })
   }
 
   handleBackButtonPress = () => {
     this.setState({
-      category : null,
+      page : this.state.page - 1,
+      category : null
+    })
+  }
+  
+  handleMapBackButtonPress = () => {
+    this.setState({
+      page : this.state.page - 1,
       itemCode : null
     })
+
   }
 
   render(){
-    const { category,itemCode } = this.state;
-    if(category === null){
+    const { page,category,itemCode } = this.state;
+    if(page === 0){
       return(
         <View style={styles.container}>
           <Header
@@ -51,7 +66,7 @@ export default class App extends Component{
           </ScrollView>       
         </View>
       );
-    }else if(itemCode === null){
+    }else if(page === 1){
       return(
         <View style={styles.container}>
           <ItemsCard
@@ -63,7 +78,7 @@ export default class App extends Component{
       )
     }else{
       return(
-          <MapScreen />
+        <MapScreen onMapBackButtonPress={this.handleMapBackButtonPress.bind(this)}/>
       )
     }
   }
