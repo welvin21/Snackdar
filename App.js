@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { View,Text,StyleSheet,ScrollView,Fragment,SafeAreaView } from 'react-native';
+import { Header } from 'react-native-elements';
 import OptionCard from './components/OptionCard';
 import ItemsCard from './components/ItemsCard';
 import * as dataModule from './assets/data/Data';
@@ -23,13 +24,22 @@ export default class App extends Component{
     this.setState({itemCode : itemCode.toLowerCase()})
   }
 
+  handleBackButtonPress = () => {
+    this.setState({
+      category : null,
+      itemCode : null
+    })
+  }
+
   render(){
     const { category,itemCode } = this.state;
     if(category === null){
       return(
-        <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>My Vending Machine</Text>
-          <View style={styles.content}>
+        <View style={styles.container}>
+          <Header
+            centerComponent={{ text: 'MY VENDING MACHINE', style : {color : '#fff'} }}
+          />
+          <ScrollView style={styles.content}>
             {OptionCards.map(Option => 
               <OptionCard 
                 text={Option.text} 
@@ -37,23 +47,24 @@ export default class App extends Component{
                 onPress={this.handleOptionCardOnPress.bind(this)}
               />
             )}
-          </View>       
-        </SafeAreaView>
+          </ScrollView>       
+        </View>
       );
     }else if(itemCode === null){
       return(
-        <ScrollView style={styles.scroll}>
+        <View style={styles.container}>
           <ItemsCard
             category={category} 
             onPress={this.handleItemOnPress.bind(this)}
+            onBackButtonPress={this.handleBackButtonPress.bind(this)}
           />
-        </ScrollView>
+        </View>
       )
     }else{
       return(
-        <ScrollView style={styles.scroll}>
+        <View style={styles.container}>
           <Text>Hello world</Text>
-        </ScrollView>
+        </View>
       )
     }
   }
@@ -63,21 +74,20 @@ const styles = StyleSheet.create({
   container : {
     alignItems: 'center',
     flex: 1,
-    paddingTop : 50,
+    paddingTop : 0,
     // justifyContent: 'center'
   },
   scroll : {
     alignContent : 'center',
     flex: 1,
-    paddingTop : 50,
+    paddingTop : 0,
 
-  },
-  title : {
-    marginBottom : 20,
-    fontSize : 24
   },
   content : {
     width : '100%',
+    alignContent : 'center',
+    flex: 1,
+    paddingTop : 50,
     // alignItems : 'center'
   }
 })
