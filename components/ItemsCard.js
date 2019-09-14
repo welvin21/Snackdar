@@ -3,7 +3,7 @@ import { ScrollView,View,Text,StyleSheet,Image,TouchableOpacity, Alert } from 'r
 import { Header,Icon } from 'react-native-elements';
 import * as dataModule from '../assets/data/Data';
 
-const { Beverages } = dataModule;
+const { Beverages,Chips,Sweets } = dataModule;
 
 export default class ItemsCard extends Component{
     constructor(props){
@@ -23,6 +23,10 @@ export default class ItemsCard extends Component{
 
     render(){
         const { category } = this.props;
+        let data = []
+        if(category === 'beverages'){data = Beverages}
+        else if(category === 'chips'){data = Chips}
+        else if(category === 'sweets'){data = Sweets}
         return(
             <View>
                 <Header>
@@ -33,17 +37,17 @@ export default class ItemsCard extends Component{
                     <Text style={{color : '#fff'}}>MY VENDING MACHINE</Text>
                 </Header>                
                 <ScrollView style={styles.scroll}>
-                    {Beverages.map(beverage => (
+                    {data.map(datum => (
                         <TouchableOpacity 
                             style={styles.item}
-                            key={beverage.key} 
-                            onPress={()=>this.onButtonPress(beverage.itemCode)}
+                            key={datum.key} 
+                            onPress={()=>this.onButtonPress(datum.itemCode)}
                         >
                             <Image
                                 style={styles.image}
-                                source={beverage.image}
+                                source={datum.image}
                             />
-                            <Text style={styles.text}>{beverage.itemName}</Text>
+                            <Text style={styles.text}>{datum.itemName}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
@@ -75,7 +79,11 @@ const styles = StyleSheet.create({
         aspectRatio : 1/1
     },
     text : {
-       fontSize : 30,
-       fontFamily : 'Thonburi'
+        textAlign : 'center',
+        fontSize : 20,
+        padding : 5,
+        fontFamily : 'Thonburi',
+        borderBottomLeftRadius : 20,
+        borderBottomRightRadius : 20,
     }
 })

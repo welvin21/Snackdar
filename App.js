@@ -35,7 +35,8 @@ export default class App extends Component{
   handleBackButtonPress = () => {
     this.setState({
       page : this.state.page - 1,
-      category : null
+      category : null,
+      itemCode : null
     })
   }
   
