@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
-import { ScrollView,View,Text,StyleSheet,Image,TouchableOpacity } from 'react-native';
+import { ScrollView,View,Text,StyleSheet,Image,TouchableOpacity, Alert } from 'react-native';
+import { Header,Icon } from 'react-native-elements';
 import * as dataModule from '../assets/data/Data';
 
 const { Beverages } = dataModule;
@@ -16,24 +17,37 @@ export default class ItemsCard extends Component{
         this.props.onPress(itemCode);
     }
 
+    handleOnBackButtonPress(){
+        this.props.onBackButtonPress();
+    }
+
     render(){
         const { category } = this.props;
         return(
-            <ScrollView style={styles.scroll}>
-                {Beverages.map(beverage => (
-                    <TouchableOpacity 
-                        style={styles.item}
-                        key={beverage.key} 
-                        onPress={()=>this.onButtonPress(beverage.itemCode)}
-                    >
-                        <Image
-                            style={styles.image}
-                            source={beverage.image}
-                        />
-                        <Text style={styles.text}>{beverage.itemName}</Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
+            <View>
+                <Header>
+                    <Icon 
+                        name='arrow-back'
+                        onPress={()=>{this.handleOnBackButtonPress()}}
+                    />
+                    <Text style={{color : '#fff'}}>MY VENDING MACHINE</Text>
+                </Header>                
+                <ScrollView style={styles.scroll}>
+                    {Beverages.map(beverage => (
+                        <TouchableOpacity 
+                            style={styles.item}
+                            key={beverage.key} 
+                            onPress={()=>this.onButtonPress(beverage.itemCode)}
+                        >
+                            <Image
+                                style={styles.image}
+                                source={beverage.image}
+                            />
+                            <Text style={styles.text}>{beverage.itemName}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
         );
     }
 }
@@ -42,6 +56,7 @@ const styles = StyleSheet.create({
     scroll : {
         flex : 1,
         padding : '20%',
+        paddingTop : 10,
         alignContent : 'center'
     },
     item : {
@@ -61,6 +76,6 @@ const styles = StyleSheet.create({
     },
     text : {
        fontSize : 30,
-       fontFamily : 'AmericanTypewriter-bold'
+       fontFamily : 'Thonburi'
     }
 })
