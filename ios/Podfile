@@ -27,11 +27,17 @@ target 'MyVendingMachine' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
   target 'MyVendingMachineTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
   use_native_modules!
 end
 

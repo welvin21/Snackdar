@@ -63,7 +63,7 @@ export default class App extends Component{
       )
     }else{
       return(
-        <MapScreen />
+          <MapScreen />
       )
     }
   }
