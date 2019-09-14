@@ -1,30 +1,11 @@
 import React,{ Component } from 'react';
-import { View,Text,StyleSheet,SafeAreaView,Fragment } from 'react-native';
+import { View,Text,StyleSheet,ScrollView,Fragment,SafeAreaView } from 'react-native';
 import OptionCard from './components/OptionCard';
 import ItemsCard from './components/ItemsCard';
+import * as dataModule from './assets/data/Data';
 
-const OptionCards = [
-  {
-    key : 1,
-    text : 'Beverages'
-  },
-  {
-    key : 2,
-    text : 'Chips'
-  },
-  {
-    key : 3,
-    text : 'Sweets'
-  },
-  {
-    key : 4,
-    text : 'Medicine'
-  },
-  {
-    key : 5,
-    text : 'Stationery'
-  }
-]
+const { OptionCards } = dataModule;
+
 export default class App extends Component{
   constructor(props){
     super(props);
@@ -61,18 +42,18 @@ export default class App extends Component{
       );
     }else if(itemCode === null){
       return(
-        <SafeAreaView style={styles.container}>
-          <ItemsCard 
+        <ScrollView style={styles.scroll}>
+          <ItemsCard
+            category={category} 
             onPress={this.handleItemOnPress.bind(this)}
-            itemCode={'A1'}
           />
-        </SafeAreaView>
+        </ScrollView>
       )
     }else{
       return(
-        <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scroll}>
           <Text>Hello world</Text>
-        </SafeAreaView>
+        </ScrollView>
       )
     }
   }
@@ -82,7 +63,14 @@ const styles = StyleSheet.create({
   container : {
     alignItems: 'center',
     flex: 1,
+    paddingTop : 50,
     // justifyContent: 'center'
+  },
+  scroll : {
+    alignContent : 'center',
+    flex: 1,
+    paddingTop : 50,
+
   },
   title : {
     marginBottom : 20,

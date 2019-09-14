@@ -1,6 +1,8 @@
 import React,{ Component } from 'react';
-import { SafeAreaView,View,Text,StyleSheet,Image,TouchableOpacity } from 'react-native';
-import drinks from '../assets/images/drinks.jpg';
+import { ScrollView,View,Text,StyleSheet,Image,TouchableOpacity } from 'react-native';
+import * as dataModule from '../assets/data/Data';
+
+const { Beverages } = dataModule;
 
 export default class ItemsCard extends Component{
     constructor(props){
@@ -15,21 +17,49 @@ export default class ItemsCard extends Component{
     }
 
     render(){
-        const { itemCode } = this.props;
+        const { category } = this.props;
         return(
-            <TouchableOpacity onPress={() => {this.onButtonPress(itemCode)}}>
-                <Image 
-                    style={styles.image}
-                    source={drinks} 
-                />
-            </TouchableOpacity>
+            <ScrollView style={styles.scroll}>
+                {Beverages.map(beverage => (
+                    <TouchableOpacity 
+                        style={styles.item}
+                        key={beverage.key} 
+                        onPress={()=>this.onButtonPress(beverage.itemCode)}
+                    >
+                        <Image
+                            style={styles.image}
+                            source={beverage.image}
+                        />
+                        <Text style={styles.text}>{beverage.itemName}</Text>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    scroll : {
+        flex : 1,
+        padding : '20%',
+        alignContent : 'center'
+    },
+    item : {
+        width : '100%',
+        display : 'flex',
+        flexDirection : 'column',
+        alignItems : 'center',
+        marginVertical : 20,
+        borderRadius : 20,
+        backgroundColor : '#92d1c7',
+    },
     image : {
-        width : 40,
-        height : 40   
+        margin : 10,
+        width : '100%',
+        height : undefined,
+        aspectRatio : 1/1
+    },
+    text : {
+       fontSize : 30
     }
 })
