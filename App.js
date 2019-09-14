@@ -2,6 +2,7 @@ import React,{ Component } from 'react';
 import { View,Text,StyleSheet,ScrollView,Fragment,SafeAreaView } from 'react-native';
 import OptionCard from './components/OptionCard';
 import ItemsCard from './components/ItemsCard';
+import MapScreen from './components/MapScreen';
 import * as dataModule from './assets/data/Data';
 
 const { OptionCards } = dataModule;
@@ -51,9 +52,7 @@ export default class App extends Component{
       )
     }else{
       return(
-        <ScrollView style={styles.scroll}>
-          <Text>Hello world</Text>
-        </ScrollView>
+        <MapScreen />
       )
     }
   }
