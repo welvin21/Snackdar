@@ -30,7 +30,7 @@ const OptionCards = [
     // {
     //     key : 4,
     //     text : 'Medicine'
-    // },
+    // }, 
     // {
     //     key : 5,
     //     text : 'Stationery'

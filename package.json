@@ -8,6 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "firebase": "^6.6.1",
     "install": "^0.13.0",
     "native-base": "^2.13.8",
     "npm": "^6.11.3",

@@ -2,6 +2,9 @@ import React,{ Component } from 'react';
 import { View, StyleSheet,Text } from 'react-native';
 import { Header,Icon } from 'react-native-elements';
 import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
+import { db } from '../config';
+
+let itemsRef = db.ref('/vending machine');
 
 export default class MapScreen extends Component{
     constructor(props){
@@ -17,30 +20,52 @@ export default class MapScreen extends Component{
             title : 'Vending machine 1',
             description : 'price : \n quantity : '
           },
-          {
-            key : 2,
-            latlng : {
-              latitude: 43.471630,
-              longitude: -80.541380,
-            },
-            title : 'Vending machine 2',
-            description : 'price : \n quantity : '
-          },
-          {
-            key : 3,
-            latlng : {
-              latitude: 43.469625,
-              longitude: -80.541380,
-            },
-            title : 'Vending machine 3',
-            description : 'price : \n quantity : '
-          }
+          // {
+          //   key : 2,
+          //   latlng : {
+          //     latitude: 43.471630,
+          //     longitude: -80.541380,
+          //   },
+          //   title : 'Vending machine 2',
+          //   description : 'price : \n quantity : '
+          // },
+          // {
+          //   key : 3,
+          //   latlng : {
+          //     latitude: 43.469625,
+          //     longitude: -80.541380,
+          //   },
+          //   title : 'Vending machine 3',
+          //   description : 'price : \n quantity : '
+          // }
         ]
       }
     }
 
     handleOnBackButtonPress(){
       this.props.onMapBackButtonPress();
+    }
+
+    componentDidMount() {
+      const { markers } = this.state;
+      itemsRef.on('value',snapshot => {
+        let data = snapshot.val();
+        let newMarker = {
+          key : data.id,
+          title : data.Title,
+          description : 'test firebase connection',
+          latlng : {
+            longitude : data.Location.longitude,
+            latitude : data.Location.latitude
+          }
+        }
+        this.setState({
+          markers : [
+            ...markers,
+            newMarker
+          ]
+        })
+      });
     }
 
     render(){
