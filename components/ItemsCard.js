@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         aspectRatio : 1/1
     },
     text : {
-       fontSize : 30
+       fontSize : 30,
+       fontFamily : 'AmericanTypewriter-bold'
     }
 })
