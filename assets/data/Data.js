@@ -137,4 +137,28 @@ const Sweets = [
     }
 ]
 
-export { OptionCards,Beverages,Chips,Sweets };
+const Icons = {
+    'beverages' : {
+        'b1' : coke,
+        'b2' : dietcoke,
+        'b3' : pepsi,
+        'b4' : sprite,
+        'b5' : redbull,
+        'b6' : dasani
+    },
+    'chips' : {
+        'c1' : doritos,
+        'c2' : pringles,
+        'c3' : doritos2,
+        'c4' : tyrrels
+    },
+    'sweets' : {
+        's1' : kitkat,
+        's2' : cadbury,
+        's3' : mm,
+        's4' : maltesers,
+        's5' : crunchie
+    }
+}
+
+export { OptionCards,Beverages,Chips,Sweets,Icons };

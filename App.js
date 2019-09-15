@@ -6,7 +6,7 @@ import ItemsCard from './components/ItemsCard';
 import MapScreen from './components/MapScreen';
 import * as dataModule from './assets/data/Data';
 
-const { OptionCards } = dataModule;
+const { OptionCards,Icons } = dataModule;
 
 export default class App extends Component{
   constructor(props){
@@ -79,7 +79,10 @@ export default class App extends Component{
       )
     }else{
       return(
-        <MapScreen onMapBackButtonPress={this.handleMapBackButtonPress.bind(this)}/>
+        <MapScreen 
+          onMapBackButtonPress={this.handleMapBackButtonPress.bind(this)}
+          pinIcon={Icons[category.toLowerCase()][itemCode.toLowerCase()]}
+        />
       )
     }
   }

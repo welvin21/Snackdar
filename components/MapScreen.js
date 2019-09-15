@@ -1,44 +1,16 @@
 import React,{ Component } from 'react';
-import { View, StyleSheet,Text } from 'react-native';
+import { View, StyleSheet,Text,Image } from 'react-native';
 import { Header,Icon } from 'react-native-elements';
 import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
 import { db } from '../config';
 
-let itemsRef = db.ref('/vending machine');
+let itemsRef = db.ref('/vending machines');
 
 export default class MapScreen extends Component{
     constructor(props){
       super(props);
       this.state = {
-        markers : [
-          {
-            key : 1,
-            latlng : {
-              latitude: 43.470630,
-              longitude: -80.541380,
-            },
-            title : 'Vending machine 1',
-            description : 'price : \n quantity : '
-          },
-          // {
-          //   key : 2,
-          //   latlng : {
-          //     latitude: 43.471630,
-          //     longitude: -80.541380,
-          //   },
-          //   title : 'Vending machine 2',
-          //   description : 'price : \n quantity : '
-          // },
-          // {
-          //   key : 3,
-          //   latlng : {
-          //     latitude: 43.469625,
-          //     longitude: -80.541380,
-          //   },
-          //   title : 'Vending machine 3',
-          //   description : 'price : \n quantity : '
-          // }
-        ]
+        markers : []
       }
     }
 
@@ -47,28 +19,32 @@ export default class MapScreen extends Component{
     }
 
     componentDidMount() {
-      const { markers } = this.state;
       itemsRef.on('value',snapshot => {
         let data = snapshot.val();
-        let newMarker = {
-          key : data.id,
-          title : data.Title,
-          description : 'test firebase connection',
-          latlng : {
-            longitude : data.Location.longitude,
-            latitude : data.Location.latitude
-          }
+        let markers = []
+        for(let key in data){
+          let marker = data[key]
+          let newMarker = {
+            key : marker.id,
+            title : marker.title,
+            description : marker.description,
+            latlng : {
+              latitude : marker.location.latitude,
+              longitude : marker.location.longitude
+            }
+          };
+          markers.push(newMarker);
         }
         this.setState({
           markers : [
-            ...markers,
-            newMarker
+            ...markers
           ]
         })
       });
     }
 
     render(){
+      const { pinIcon } = this.props;
         return(
           <View style={styles.container}>
             <Header style={styles.header}>
@@ -93,7 +69,9 @@ export default class MapScreen extends Component{
                   coordinate={marker.latlng}
                   title={marker.title}
                   description={marker.description}
-                />
+                >
+                  <Image source={pinIcon} style={styles.image}/>
+                </Marker>
               ))}
             </MapView>
           </View>
@@ -124,4 +102,8 @@ const styles = StyleSheet.create({
     right : 0,
     top : '10%'
   },
+  image: {
+    width : 30,
+    height : 30
+  }
  });
