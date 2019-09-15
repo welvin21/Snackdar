@@ -82,6 +82,8 @@ export default class App extends Component{
         <MapScreen 
           onMapBackButtonPress={this.handleMapBackButtonPress.bind(this)}
           pinIcon={Icons[category.toLowerCase()][itemCode.toLowerCase()]}
+          category={category}
+          itemCode={itemCode}
         />
       )
     }

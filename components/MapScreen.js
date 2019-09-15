@@ -1,13 +1,14 @@
 import React,{ Component } from 'react';
 import { Dimensions,YellowBox } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-const { height, width } = Dimensions.get( 'window' );
-const LATITUDE_DELTA = 0.015;
-const LONGITUDE_DELTA = 0.0121;
 import { View, StyleSheet,Text,Image } from 'react-native';
 import { Header,Icon } from 'react-native-elements';
 import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
 import { db } from '../config';
+import findVendingMachine from '../functions/findVendingMachine';
+
+const LATITUDE_DELTA = 0.015;
+const LONGITUDE_DELTA = 0.0121;
 
 console.disableYellowBox = true;
 let itemsRef = db.ref('/vending machines');
@@ -17,17 +18,7 @@ export default class MapScreen extends Component{
       super(props);
       this.state = {
         initial : {},
-        markers : [
-          {
-            key : 1,
-            title : 'haha',
-            description : 'test',
-            latlng : {
-              latitude : 43.470830,
-              longitude : -80.541780,
-            }
-          }
-        ]
+        markers : []
       }
     }
 
@@ -36,31 +27,34 @@ export default class MapScreen extends Component{
     }
 
     // componentDidMount() {
-    //   itemsRef.on('value',snapshot => {
-    //     let data = snapshot.val();
-    //     let markers = []
-    //     for(let key in data){
-    //       let marker = data[key]
-    //       let newMarker = {
-    //         key : marker.id,
-    //         title : marker.title,
-    //         description : marker.description,
-    //         latlng : {
-    //           latitude : marker.location.latitude,
-    //           longitude : marker.location.longitude
-    //         }
-    //       };
-    //       markers.push(newMarker);
-    //     }
-    //     this.setState({
-    //       markers : [
-    //         ...markers
-    //       ]
-    //     })
-    //   });
+      
     // }
 
     componentDidMount(){
+      const { category,itemCode } = this.props;
+      itemsRef.on('value',snapshot => {
+        let data = snapshot.val();
+        const markers = findVendingMachine(data,category,itemCode);
+        // let markers = []
+        // for(let key in data){
+        //   let marker = data[key]
+        //   let newMarker = {
+        //     key : marker.id,
+        //     title : marker.title,
+        //     description : marker.description,
+        //     latlng : {
+        //       latitude : marker.location.latitude,
+        //       longitude : marker.location.longitude
+        //     }
+        //   };
+        //   markers.push(newMarker);
+        // }
+        this.setState({
+          markers : [
+            ...markers
+          ]
+        })
+      });
       Geolocation.getCurrentPosition(
         (position) => {
           this.setState({
@@ -99,12 +93,6 @@ export default class MapScreen extends Component{
             </Header>   
             <MapView
               style={styles.map}
-              // region={{
-              //   latitude: 43.470630,
-              //   longitude: -80.541380,
-              //   latitudeDelta: 0.015,
-              //   longitudeDelta: 0.0121,
-              // }}
               region={initial}
               showsUserLocation={true}
               showsScale={true}
@@ -113,8 +101,8 @@ export default class MapScreen extends Component{
             >
               {this.state.markers.map(marker => (
                 <Marker
-                  key={marker.key}
-                  coordinate={marker.latlng}
+                  key={marker.id}
+                  coordinate={marker.location}
                   title={marker.title}
                   description={marker.description}
                 >
