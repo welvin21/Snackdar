@@ -1,16 +1,33 @@
 import React,{ Component } from 'react';
+import { Dimensions,YellowBox } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+const { height, width } = Dimensions.get( 'window' );
+const LATITUDE_DELTA = 0.015;
+const LONGITUDE_DELTA = 0.0121;
 import { View, StyleSheet,Text,Image } from 'react-native';
 import { Header,Icon } from 'react-native-elements';
 import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
 import { db } from '../config';
 
+console.disableYellowBox = true;
 let itemsRef = db.ref('/vending machines');
 
 export default class MapScreen extends Component{
     constructor(props){
       super(props);
       this.state = {
-        markers : []
+        initial : {},
+        markers : [
+          {
+            key : 1,
+            title : 'haha',
+            description : 'test',
+            latlng : {
+              latitude : 43.470830,
+              longitude : -80.541780,
+            }
+          }
+        ]
       }
     }
 
@@ -18,33 +35,59 @@ export default class MapScreen extends Component{
       this.props.onMapBackButtonPress();
     }
 
-    componentDidMount() {
-      itemsRef.on('value',snapshot => {
-        let data = snapshot.val();
-        let markers = []
-        for(let key in data){
-          let marker = data[key]
-          let newMarker = {
-            key : marker.id,
-            title : marker.title,
-            description : marker.description,
-            latlng : {
-              latitude : marker.location.latitude,
-              longitude : marker.location.longitude
-            }
-          };
-          markers.push(newMarker);
-        }
-        this.setState({
-          markers : [
-            ...markers
-          ]
-        })
-      });
+    // componentDidMount() {
+    //   itemsRef.on('value',snapshot => {
+    //     let data = snapshot.val();
+    //     let markers = []
+    //     for(let key in data){
+    //       let marker = data[key]
+    //       let newMarker = {
+    //         key : marker.id,
+    //         title : marker.title,
+    //         description : marker.description,
+    //         latlng : {
+    //           latitude : marker.location.latitude,
+    //           longitude : marker.location.longitude
+    //         }
+    //       };
+    //       markers.push(newMarker);
+    //     }
+    //     this.setState({
+    //       markers : [
+    //         ...markers
+    //       ]
+    //     })
+    //   });
+    // }
+
+    componentDidMount(){
+      Geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            initial: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }});
+          },
+        (error) => alert(error.message),
+        {enableHighAccuracy: false, timeout: 20000}
+      );
+      this.watchID = Geolocation.watchPosition((position) => {
+       this.setState({currentRegion: {
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           latitudeDelta: LATITUDE_DELTA,
+           longitudeDelta: LONGITUDE_DELTA,
+         }});
+ 
+     })
     }
 
     render(){
       const { pinIcon } = this.props;
+      const { initial } = this.state;
         return(
           <View style={styles.container}>
             <Header style={styles.header}>
@@ -56,12 +99,17 @@ export default class MapScreen extends Component{
             </Header>   
             <MapView
               style={styles.map}
-              region={{
-                latitude: 43.470630,
-                longitude: -80.541380,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}
+              // region={{
+              //   latitude: 43.470630,
+              //   longitude: -80.541380,
+              //   latitudeDelta: 0.015,
+              //   longitudeDelta: 0.0121,
+              // }}
+              region={initial}
+              showsUserLocation={true}
+              showsScale={true}
+              minZoomLevel={0}
+              maxZoomLevel={20}
             >
               {this.state.markers.map(marker => (
                 <Marker
