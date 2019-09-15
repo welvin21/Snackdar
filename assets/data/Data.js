@@ -13,6 +13,11 @@ import crunchie from '../images/crunchie.png';
 import cadbury from '../images/cadbury.png';
 import mm from '../images/m&m.png';
 import maltesers from '../images/maltesers.png';
+import vm1 from '../images/vm1.jpg';
+import vm2 from '../images/vm2.jpg';
+import vm3 from '../images/vm3.jpeg';
+import vm4 from '../images/vm4.jpeg';
+import vm5 from '../images/vm5.jpeg';
 
 const OptionCards = [
     {
@@ -161,4 +166,12 @@ const Icons = {
     }
 }
 
-export { OptionCards,Beverages,Chips,Sweets,Icons };
+const VMImages = {
+    'UW1' : vm1,
+    'UW2' : vm2,
+    'UW3' : vm3,
+    'UW4' : vm4,
+    'UW5' : vm5
+}
+
+export { OptionCards,Beverages,Chips,Sweets,Icons,VMImages };

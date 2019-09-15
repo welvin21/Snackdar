@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { Dimensions,YellowBox } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-import { View, StyleSheet,Text,Image } from 'react-native';
+import { View, StyleSheet,Text,Image,TouchableOpacity } from 'react-native';
 import { Header,Icon } from 'react-native-elements';
 import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
 import { db } from '../config';
@@ -79,6 +79,10 @@ export default class MapScreen extends Component{
      })
     }
 
+    onPress(details){
+      this.props.onPress(details);
+    }
+
     render(){
       const { pinIcon } = this.props;
       const { initial } = this.state;
@@ -106,7 +110,12 @@ export default class MapScreen extends Component{
                   title={marker.title}
                   description={marker.description}
                 >
-                  <Image source={pinIcon} style={styles.image}/>
+                  <TouchableOpacity 
+                    style={styles.image} 
+                    onPress={()=>{this.onPress(marker)}}
+                  >
+                    <Image source={pinIcon} style={styles.image}/>
+                  </TouchableOpacity>
                 </Marker>
               ))}
             </MapView>
@@ -136,7 +145,7 @@ const styles = StyleSheet.create({
     bottom : 0,
     left : 0,
     right : 0,
-    top : '10%'
+    top : '9%'
   },
   image: {
     width : 30,

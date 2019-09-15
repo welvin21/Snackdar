@@ -4,6 +4,7 @@ import { Header } from 'react-native-elements';
 import OptionCard from './components/OptionCard';
 import ItemsCard from './components/ItemsCard';
 import MapScreen from './components/MapScreen';
+import ItemDetails from './components/ItemDetails';
 import * as dataModule from './assets/data/Data';
 
 const { OptionCards,Icons } = dataModule;
@@ -14,7 +15,8 @@ export default class App extends Component{
     this.state = {
       page : 0,
       category : null,
-      itemCode : null
+      itemCode : null,
+      vm : {}
     }
   }
 
@@ -45,11 +47,21 @@ export default class App extends Component{
       page : this.state.page - 1,
       itemCode : null
     })
+  }
 
+  handleLocationPress = (vm) => {
+    this.setState({
+      page : this.state.page + 1,
+      vm
+    })
+  }
+
+  handleDetailsBackButtonPress = () => {
+    this.setState({page : this.state.page - 1})
   }
 
   render(){
-    const { page,category,itemCode } = this.state;
+    const { page,category,itemCode,vm } = this.state;
     if(page === 0){
       return(
         <View style={styles.container}>
@@ -77,15 +89,25 @@ export default class App extends Component{
           />
         </View>
       )
-    }else{
+    }else if(page === 2){
       return(
         <MapScreen 
           onMapBackButtonPress={this.handleMapBackButtonPress.bind(this)}
           pinIcon={Icons[category.toLowerCase()][itemCode.toLowerCase()]}
           category={category}
           itemCode={itemCode}
+          onPress={this.handleLocationPress.bind(this)}
         />
       )
+    }else{
+      return(
+        <View style={styles.container}>
+          <ItemDetails
+            vm={vm}
+            onBackButtonPress={this.handleDetailsBackButtonPress.bind(this)}
+          />
+        </View>
+      );
     }
   }
 }
