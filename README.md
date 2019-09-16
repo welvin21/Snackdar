@@ -12,10 +12,10 @@ To see the demo video, feel free to visit this link, [snackdar](https://drive.go
 
 Here are some screenshoots for your reference,
 
-![demo1](assets/demo/demo-img-1.png)
-![demo2](assets/demo/demo-img-2.png)
-![demo3](assets/demo/demo-img-3.png)
-![demo4](assets/demo/demo-img-4.png)
+![demo1](assets/demo/demo-img-1.png){ width=50% }
+![demo2](assets/demo/demo-img-2.png){ width=50% }
+![demo3](assets/demo/demo-img-3.png){ width=50% }
+![demo4](assets/demo/demo-img-4.png){ width=50% }
 
 
 ## Tech stacks
