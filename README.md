@@ -26,9 +26,3 @@ Snackdar was made mainly using React Native. We also utilized google firebase (r
 ## Future improvements
 
 We were able to map real location of user using google geolocation API. However, for now the location of the vending machines are still hardcoded and aren't based on real life location. In the future, we hope to tackle this challenge and also add more items and categories to the app. 
-
-## Contributors
-
-[Welvin Bun](https://github.com/welvin21)<br>
-[Ali Abdoli](https://github.com/A1igator)<br>
-[Willy Chan](https://github.com/Willy-C)<br>
